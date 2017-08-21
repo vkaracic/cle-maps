@@ -5,3 +5,9 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
+
+  footer
+    script
+      | var mapsApiKey = "#{apiKey}";
+    script(src='/javascripts/maps.js')
+    script(src='/javascripts/scripts.js')
