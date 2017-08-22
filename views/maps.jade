@@ -3,16 +3,20 @@ extends layout
 block content
     #content
         .col-6
-            #action-links
-                span(class='action-btn' name='place') Place
-                span(class='action-btn' name='directions') Directions
-            #actions
-                div(class='action place')
-                    input(id='location', type='text', placeholder='Location')
-                    input(class='submitBtn place' type='button', value='Add')
-                div(class='action directions hidden')
-                    input(id='origin', type='text', placeholder='Origin')
-                    input(id='destination', type='text', placeholder='Destination')
+            #option-links
+                span(class='option-btn active' name='marker') Marker
+                span(class='option-btn' name='directions') Directions
+            #options
+                div(class='option marker')
+                    input(id='location', type='text', name='location', placeholder='Location')
+                    input(class='submitBtn marker' type='button', value='Add')
+                div(class='option directions hidden')
+                    input(id='origin', type='text', name='origin', placeholder='Origin')
+                    input(id='destination', type='text', name='destination', placeholder='Destination')
                     input(class='submitBtn directions' type='button', value='Add')
+            #items
+                table
+                    tbody
+                        tr
         .col-6
             #map-display

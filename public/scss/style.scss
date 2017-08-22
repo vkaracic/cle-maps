@@ -16,11 +16,15 @@ header {
 #content {
     width: 1170px;
 
-    #action-links {
+    #option-links {
         span {
             display: inline-block;
             padding: 5px 10px;
             border: 1px solid #E3E3E3;
+
+            &.active {
+                background-color: #C3C3C3;
+            }
 
             &:hover {
                 cursor: pointer;
@@ -37,11 +41,11 @@ header {
         }
     }
 
-    #actions {
+    #options {
         border: 1px solid #E3E3E3;
         padding: 5px;
 
-        .action {
+        .option {
             input {
                 margin-right: 5px;
             }
@@ -56,5 +60,8 @@ header {
         }
     }
 
-    #map-display { border: 1px solid black; }
+    #map-display {
+        height: 500px;
+        border: 1px solid black;
+    }
 }
