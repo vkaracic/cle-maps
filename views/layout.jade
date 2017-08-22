@@ -2,12 +2,16 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='/stylesheets/reset.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+  header
+    block header
   body
     block content
 
   footer
     script
       | var mapsApiKey = "#{apiKey}";
+    script(src='/javascripts/jquery-3.2.1.min.js')
     script(src='/javascripts/maps.js')
     script(src='/javascripts/scripts.js')

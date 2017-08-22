@@ -1,6 +1,18 @@
 extends layout
 
 block content
-    input(id='location', type='text')
-    input(id='submitBtn' type='button', value='Submit' name='location')
-    #map-display
+    #content
+        .col-6
+            #action-links
+                span(class='action-btn' name='place') Place
+                span(class='action-btn' name='directions') Directions
+            #actions
+                div(class='action place')
+                    input(id='location', type='text', placeholder='Location')
+                    input(class='submitBtn place' type='button', value='Add')
+                div(class='action directions hidden')
+                    input(id='origin', type='text', placeholder='Origin')
+                    input(id='destination', type='text', placeholder='Destination')
+                    input(class='submitBtn directions' type='button', value='Add')
+        .col-6
+            #map-display
