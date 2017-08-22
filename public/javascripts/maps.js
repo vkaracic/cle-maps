@@ -6,40 +6,36 @@ function Client (key) {
 };
 
 Client.prototype.iframe = function () {
-  let ifr = document.createElement('iframe');
-  ifr.setAttribute('height', this.height);
-  ifr.setAttribute('width', this.width);
-  return ifr;
+  return $('<iframe>', {
+    height: this.height,
+    width: this.width
+  });
 };
 
 Client.prototype.generateSource = function (endpoint, params) {
   let baseUrl = 'https://www.google.com/maps/embed/v1/' + endpoint;
-  let queryString = '?key=' + this.key + '&';
-  for (let key in params) {
-    if (params.hasOwnProperty(key)) {
-      queryString = queryString + key + '=' + params[key] + '&';
-    }
-  }
-
-  return baseUrl + queryString.slice(0, -1);
+  let queryString = '?&key=' + this.key + '&' + $.param(params)
+  return baseUrl + queryString;
 };
 
 Client.prototype.generateLocationMap = function (element) {
+  $(element).empty();
   let iframe = this.iframe();
   let source = this.generateSource('place', {'q': this.location});
-  iframe.setAttribute('src', source);
+  iframe.attr('src', source);
 
-  element.appendChild(iframe);
+  element.append(iframe);
 };
 
 Client.prototype.generateDirectionMap = function (element, origin, destination) {
+  $(element).empty();
   let iframe = this.iframe();
   let source = this.generateSource('directions', {
     'origin': origin,
     'destination': destination
   });
-  iframe.setAttribute('src', source);
-  element.appendChild(iframe);
+  iframe.attr('src', source);
+  element.append(iframe);
 };
 
 window.GoogleMapper = Client;
