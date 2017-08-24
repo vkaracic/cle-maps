@@ -4,6 +4,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var expressSession = require('express-session');
+var config = require('./config/private.json');
+var passport = require('./config/passport');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -20,6 +24,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressSession({secret: config.sessionSecret}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 app.use('/', index);
 app.use('/users', users);

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    #login
+        form(action='/login', method='POST')
+            h2 LOGIN
+            input(id='username', type='text', name='username', placeholder='Username')
+            input(id='password', type='password', name='password', placeholder='Password')
+            input(type="submit")
