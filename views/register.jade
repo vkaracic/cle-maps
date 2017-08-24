@@ -1,0 +1,10 @@
+div
+    form(action='/register', method='POST')
+        input(id='first-name', type='text', name='first_name')
+        input(id='last-name', type='text', name='last_name')
+        input(id='username', type='text', name='username')
+        input(id='password', type='password', name='password')
+        select(id='role', name='role')
+            option(value='user') User
+            option(value='admin') Admin
+        input(type="submit")

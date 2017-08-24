@@ -1,0 +1,7 @@
+extends layout
+
+block footer
+    script(src='/javascripts/jquery-3.2.1.min.js')
+    script(src='/javascripts/maps.js')
+    script(src='/javascripts/scripts.js')
+    script(src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&libraries=places,visualization&callback=initMap')
