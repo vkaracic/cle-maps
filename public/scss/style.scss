@@ -65,3 +65,30 @@ header {
         border: 1px solid black;
     }
 }
+
+
+#login {
+    width: 300px;
+    height: 200px;
+    margin: 200px auto 0 auto;
+    border: 1px solid #DADADA;
+    border-radius: 5px;
+    padding: 2%;
+    text-align: center;
+
+    input, select {
+        display: block;
+        width: 80%;
+        height: 30px;
+        margin: 5% auto 0 auto;
+
+        &[type=text], &[type=password] {
+            text-indent: 10px;
+        }
+    }
+}
+
+#register {
+    @extend #login;
+    height: 320px;
+}

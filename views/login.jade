@@ -1,5 +1,9 @@
-div
-    form(action='/login', method='POST')
-        input(id='username', type='text', name='username')
-        input(id='password', type='password', name='password')
-        input(type="submit")
+extends layout
+
+block content
+    #login
+        form(action='/login', method='POST')
+            h2 LOGIN
+            input(id='username', type='text', name='username', placeholder='Username')
+            input(id='password', type='password', name='password', placeholder='Password')
+            input(type="submit")
