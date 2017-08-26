@@ -1,11 +1,28 @@
+window.map = window.map || {
+  markers: [],
+  paths: []
+};
+
 function saveAction (option, location, removalCallback) {
   $('#items table tr:last').after(
     '<tr><td class="option-name">' + option + '</td>' +
-    '<td class="option-location">' + location + '</td>' +
+    '<td class="option-location">' + location.name + '</td>' +
     '<td class="option-removal"><input type="button" value="Remove"></td></tr>'
   );
-  $('#items table tr:last button').on('click', function () {
+  $('#items table tr:last input[type=button]').on('click', function () {
+    let index;
+    if (option === 'markers') {
+      index = window.map.markers.findIndex((obj) => { return obj.location === location.name }) + 1;
+    } else if (option === 'paths') {
+      index = window.map.paths.findIndex((obj) => {
+        return obj.origin === location.origin && obj.destination === location.destination;
+      });
+      console.log(index);
+    }
 
+    window.map[option][index].obj.setMap(null); // Remove marker from map
+    window.map[option].splice(index, 1); // Remove marker from global map var
+    $(this).closest('tr').remove(); // Remove the table row
   });
 }
 
@@ -35,14 +52,22 @@ function markerHandler (map) {
         scaledSize: new google.maps.Size(25, 25)
       };
 
-      markers.push(new google.maps.Marker({
+      let marker = new google.maps.Marker({
         map: map,
         icon: icon,
         title: place.name,
         position: place.geometry.location
-      }));
+      });
 
-      saveAction('marker', place.name);
+      window.map.markers.push({
+        title: place.name,
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+        obj: marker
+      });
+
+      markers.push(marker);
+      saveAction('markers', {name: place.name});
 
       if (place.geometry.viewport) {
         bounds.union(place.geometry.viewport);
@@ -70,10 +95,16 @@ function directionsHandler (map) {
     }, function (response, status) {
       if (status === 'OK') {
         directionsDisplay.setDirections(response);
-        saveAction('direction', origin + ' - ' + destination);
+        saveAction('paths', {name: origin + ' - ' + destination, origin: origin, destination: destination});
       } else {
         console.log('Directions request failed due to ' + status);
       }
+    });
+
+    window.map.paths.push({
+      origin: origin,
+      destination: destination,
+      obj: directionsDisplay
     });
   }
 
