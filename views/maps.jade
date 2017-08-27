@@ -19,4 +19,9 @@ block content
                     tbody
                         tr
         .col-6
+            div(class='map-options')
+                input(id='map-name', type='text', name='map-name', placeholder='Map name')
+                input(id='map-public', type='checkbox', name='map-public')
+                Public
+                input(class='save-map-btn', type='button', value='Save map')
             #map-display

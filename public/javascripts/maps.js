@@ -60,7 +60,7 @@ function markerHandler (map) {
       });
 
       window.map.markers.push({
-        title: place.name,
+        name: place.name,
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
         obj: marker

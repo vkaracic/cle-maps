@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('map', {
+    return queryInterface.createTable('marker', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,14 +11,16 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      public: {
-        type: Sequelize.BOOLEAN,
-        default: true
+      lat: {
+        type: Sequelize.FLOAT
       },
-      creator: {
+      lng: {
+        type: Sequelize.FLOAT
+      },
+      mapId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'user',
+          model: 'map',
           key: 'id'
         }
       },
@@ -33,6 +35,6 @@ module.exports = {
     });
   },
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('map');
+    return queryInterface.dropTable('marker');
   }
 };
