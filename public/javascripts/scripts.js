@@ -79,10 +79,10 @@ $(document).ready(function () {
         populateMarkers(data.markers);
         populatePaths(data.paths);
 
-        $('.save-map-btn').remove();
-        $('.map-options').append(
-          '<input type="button" value="Update map", class="update-map-btn">'
+        $('.save-map-btn').after(
+          '<input type="button" value="Update map", class="update-map-btn green-submit-btn">'
         );
+        $('.save-map-btn').remove();
         $('.update-map-btn').on('click', () => {
           saveOrUpdateMap('/api/maps/' + mapId, 'PUT');
         });
