@@ -13,6 +13,37 @@ header {
     height: 80px;
 }
 
+.submit-btn {
+    margin-left: 5px;
+    padding: 5px 10px;
+    border: 1px solid #F9F9F9;
+    border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.green-submit-btn {
+    @extend .submit-btn;
+    background-color: #04BC43;
+    color: #FFFFFF;
+
+    &:hover {
+        background-color: #009934;
+    }
+}
+
+.white-btn {
+    @extend .submit-btn;
+    background-color: #FFF;
+    border: 1px solid #288DD6;
+
+    &:hover {
+        background-color: #EBEBEB;
+    }
+}
+
 #content {
     width: 1170px;
 
@@ -49,20 +80,66 @@ header {
             input {
                 margin-right: 5px;
             }
-            .submitBtn {
-                margin-left: 5px;
-                padding: 2px 5px;
-                background-color: #04BC43;
-                color: #FFFFFF;
-                border: 1px solid #F9F9F9;
-                border-radius: 5px;
-            }
         }
     }
 
     #map-display {
         height: 500px;
         border: 1px solid black;
+    }
+
+    #items table {
+        width: 100%;
+        border: 1px solid #E3E3E3;
+
+        tr {
+            border-bottom: 1px solid #E3E3E3;
+            line-height: 30px;
+
+            td {
+                padding: 5px;
+
+                &:first-child {
+                    width: 10%;
+                    text-transform: uppercase;
+                    border-right: 1px solid #E3E3E3;
+                }
+                &:last-child {
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .map-options {
+        margin-top: 10px;
+
+        .checkbox-wrapper {
+            display: block;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        input {
+            display: block;
+
+            &[name=map-name] {
+                width: 100%;
+                padding: 5px;
+            }
+
+            &[name=map-public] {
+                float: left;
+            }
+
+            &[type=button] {
+                display: inline-block;
+            }
+
+            &.green-submit-btn {
+                margin-left: 0px;
+            }
+        }
     }
 }
 

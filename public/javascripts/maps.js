@@ -33,9 +33,9 @@ function setBounds (map) {
   let bounds = new google.maps.LatLngBounds();
 
   if (!markers && !paths) return;
-  if (markers.length === 1 && !paths) {
+  if (markers.length === 1 && paths.length < 1) {
     let marker = markers[0];
-    bounds.extend(marker.placeObj.geometry.viewport);
+    bounds.union(marker.placeObj.geometry.viewport);
   } else {
     let places = [];
     markers.forEach((marker) => {
