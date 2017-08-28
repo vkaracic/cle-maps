@@ -6,9 +6,11 @@ module.exports = {
       name: req.body.name,
       public: req.body.public
     }).then((map) => {
+      let markers = JSON.parse(req.body.markers);
+      let paths = JSON.parse(req.body.paths);
       Promise.all([
-        map.addMarkers(req.body.markers),
-        map.addPaths(req.body.paths)
+        map.addMarkers(markers),
+        map.addPaths(paths)
       ]).then(() => {
         res.status(201).json(map);
       });
@@ -53,9 +55,11 @@ module.exports = {
           name: req.body.name,
           public: req.body.public
         }).then(() => {
+          let markers = JSON.parse(req.body.markers);
+          let paths = JSON.parse(req.body.paths);
           Promise.all([
-            map.addMarkers(req.body.markers),
-            map.addPaths(req.body.paths)
+            map.addMarkers(markers),
+            map.addPaths(paths)
           ]).then(() => {
             return res.status(201).send('Updated');
           });

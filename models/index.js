@@ -33,8 +33,11 @@ db.map.prototype.removeItems = function () {
   return new Promise((resolve, reject) => {
     this.getMarkers().then((markers) => {
       markers.forEach((marker) => { marker.destroy() });
-      resolve(this);
     });
+    this.getPaths().then((paths) => {
+      paths.forEach((path) => { path.destroy() });
+    });
+    resolve(this);
   });
 }
 
@@ -43,6 +46,7 @@ db.map.prototype.addMarkers = function (markers) {
     if (markers) {
       markers.forEach((marker) => {
         db.marker.create({
+          placeId: marker.placeId,
           name: marker.name,
           lat: marker.lat,
           lng: marker.lng

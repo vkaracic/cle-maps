@@ -12,6 +12,10 @@ router.get('/maps', function (req, res, next) {
   res.render('maps', { apiKey: mapsConfig.mapsApiKey });
 });
 
+router.get('/maps/:id', function (req, res, next) {
+  res.render('maps', { mapId: req.params.id, apiKey: mapsConfig.mapsApiKey });
+});
+
 router.get('/register', controllers.registerView);
 router.post('/register', controllers.registerUser);
 
