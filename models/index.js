@@ -29,4 +29,46 @@ Object.keys(db).forEach(function (modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.map.prototype.removeItems = function () {
+  return new Promise((resolve, reject) => {
+    this.getMarkers().then((markers) => {
+      markers.forEach((marker) => { marker.destroy() });
+      resolve(this);
+    });
+  });
+}
+
+db.map.prototype.addMarkers = function (markers) {
+  return new Promise((resolve, reject) => {
+    if (markers) {
+      markers.forEach((marker) => {
+        db.marker.create({
+          name: marker.name,
+          lat: marker.lat,
+          lng: marker.lng
+        }).then((obj) => {
+          obj.setMap(this);
+        });
+      });
+    }
+    resolve(this);
+  });
+}
+
+db.map.prototype.addPaths = function (paths) {
+  return new Promise((resolve, reject) => {
+    if (paths) {
+      paths.forEach((path) => {
+        db.path.create({
+          origin: path.origin,
+          destination: path.destination
+        }).then((obj) => {
+          obj.setMap(this);
+        });
+      });
+    }
+    resolve(this);
+  });
+}
+
 module.exports = db;

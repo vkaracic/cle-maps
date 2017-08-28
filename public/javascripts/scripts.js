@@ -23,8 +23,8 @@ $('.save-map-btn').on('click', function () {
     data: {
       name: $('input[name=map-name]').val(),
       public: $('input[name=map-public]').is(':checked'),
-      markers: JSON.stringify(markers),
-      paths: JSON.stringify(paths)
+      markers: markers,
+      paths: paths
     },
     success: (data) => {
       console.log('Map saved');

@@ -5,17 +5,16 @@ module.exports = function (sequelize, DataTypes) {
     public: {
       type: DataTypes.BOOLEAN,
       default: true
-    },
-    creator: DataTypes.INTEGER
-  }, {
-    freezeTableName: true,
-    classMethods: {
-      associate: function (models) {
-        Map.belongsTo(models.user);
-        Map.hasMany(models.marker);
-        Map.hasMany(models.path);
-      }
     }
+  }, {
+    freezeTableName: true
   });
+
+  Map.associate = function (models) {
+    Map.belongsTo(models.user);
+    Map.hasMany(models.marker, {onDelete: 'CASCADE'});
+    Map.hasMany(models.path, {onDelete: 'CASCADE'});
+  };
+
   return Map;
 };

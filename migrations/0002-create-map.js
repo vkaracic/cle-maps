@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         default: true
       },
-      creator: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'user',

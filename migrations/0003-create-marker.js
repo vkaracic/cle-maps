@@ -22,7 +22,8 @@ module.exports = {
         references: {
           model: 'map',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
