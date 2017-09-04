@@ -1,7 +1,8 @@
 const path = require('path');
+const config = (process.env.NODE_ENV === 'test') ? path.resolve('./config', 'test.json') : path.resolve('./config', 'config.json');
 
 module.exports = {
-  'config': path.resolve('./config', 'config.json'),
+  'config': config,
   'migrations-path': path.resolve('./', 'migrations'),
   'models-path': path.resolve('./', 'models'),
   'seeders-path': path.resolve('./', 'seeders')

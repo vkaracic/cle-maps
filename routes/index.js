@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mapsConfig = require('../config/private');
+const mapsConfig = require('../config');
 const controllers = require('../controllers/');
 const passport = require('passport');
 
