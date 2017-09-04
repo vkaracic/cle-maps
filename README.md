@@ -10,28 +10,18 @@ config.json:
     "password": "root",
     "database": "cle",
     "host": "localhost",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "mapsApiKey": "your-google-maps-api-key",
+    "sessionSecret": "top-secret"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "mapsApiKey": "your-google-maps-api-key",
+    "sessionSecret": "top-secret"
   }
-}
-```
-
-private.js:
-```
-module.exports = {
-    'mapsApiKey': '123'
 }
 ```

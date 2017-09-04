@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var expressSession = require('express-session');
-var config = require('./config/private.json');
+var config = require('./config');
 var passport = require('./config/passport');
 
 var index = require('./routes/index');

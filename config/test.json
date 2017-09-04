@@ -1,0 +1,8 @@
+{
+  "test": {
+    "dialect": "sqlite",
+    "storage": "./test_db.sqlite",
+    "mapsApiKey": "maps-key",
+    "sessionSecret": "top-secret"
+  }
+}

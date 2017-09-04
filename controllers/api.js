@@ -6,14 +6,17 @@ module.exports = {
       name: req.body.name,
       public: req.body.public
     }).then((map) => {
-      let markers = JSON.parse(req.body.markers);
-      let paths = JSON.parse(req.body.paths);
-      Promise.all([
-        map.addMarkers(markers),
-        map.addPaths(paths)
-      ]).then(() => {
-        res.status(201).json(map);
-      });
+      if (req.body.markers && req.body.paths) {
+        let markers = JSON.parse(req.body.markers);
+        let paths = JSON.parse(req.body.paths);
+        Promise.all([
+          map.addMarkers(markers),
+          map.addPaths(paths)
+        ]).then(() => {
+          return res.status(201).json(map);
+        });
+      }
+      return res.status(201).json(map);
     });
   },
 
@@ -55,14 +58,17 @@ module.exports = {
           name: req.body.name,
           public: req.body.public
         }).then(() => {
-          let markers = JSON.parse(req.body.markers);
-          let paths = JSON.parse(req.body.paths);
-          Promise.all([
-            map.addMarkers(markers),
-            map.addPaths(paths)
-          ]).then(() => {
-            return res.status(201).send('Updated');
-          });
+          if (req.body.markers && req.body.paths) {
+            let markers = JSON.parse(req.body.markers);
+            let paths = JSON.parse(req.body.paths);
+            Promise.all([
+              map.addMarkers(markers),
+              map.addPaths(paths)
+            ]).then(() => {
+              return res.status(200).send('Updated');
+            });
+          }
+          return res.status(200).send('Updated');
         });
       });
     });
