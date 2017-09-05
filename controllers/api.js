@@ -1,6 +1,24 @@
 let db = require('../models');
 
 module.exports = {
+  DELETE_ME: (req, res, next) => {
+    db.map.create({
+      name: req.body.name,
+      public: req.body.public
+    }).then((map) => {
+      if (req.body.markers && req.body.paths) {
+        let markers = JSON.parse(req.body.markers);
+        let paths = JSON.parse(req.body.paths);
+        Promise.all([
+          map.addMarkers(markers),
+          map.addPaths(paths)
+        ]).then(() => {
+          return res.status(201).json(map);
+        });
+      }
+      return res.status(201).json(map);
+    });
+  },
   saveMap: (req, res, next) => {
     db.map.create({
       name: req.body.name,
