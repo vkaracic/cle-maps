@@ -8,7 +8,7 @@ function saveAction (option, location) {
   $('#items table tr:last').after(
     '<tr><td class="option-name">' + option + '</td>' +
     '<td class="option-location">' + location.name + '</td>' +
-    '<td class="option-removal"><input type="button" value="Remove"></td></tr>'
+    '<td class="option-removal"><input type="button" class="btn btn-danger" value="Remove"></td></tr>'
   );
   $('#items table tr:last input[type=button]').on('click', function () {
     let row = $(this).closest('tr');

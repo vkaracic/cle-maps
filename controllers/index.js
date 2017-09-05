@@ -1,7 +1,17 @@
 const db = require('../models');
 const bcrypt = require('bcrypt');
+const config = require('../config');
 
 module.exports = {
+  index: (req, res, next) => {
+    res.render('index', { title: 'Index' });
+  },
+  creator: (req, res, next) => {
+    res.render('creator', { apiKey: config.mapsApiKey });
+  },
+  creatorSavedMap: (req, res, next) => {
+    res.render('creator', { mapId: req.params.id, apiKey: config.mapsApiKey });
+  },
   registerView: (req, res, next) => {
     if (req.isAuthenticated()) {
       res.redirect('/');

@@ -1,13 +1,33 @@
 doctype html
 html
   head
-    title= title
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= 'Google Maps - ' + title
     link(rel='stylesheet', href='/stylesheets/reset.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   header
     block header
+      nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.container
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        a.navbar-brand(href='/') GMP
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/creator') Creator
   body
     block content
 
   footer
     block footer
+      div.row
+        div.col-md-12.text-center
+          span Google Maps Creator 2017.
+
+  block scripts
+    script(src='/javascripts/jquery-3.2.1.min.js')
+    script(src='/javascripts/tether.min.js')
+    script(src='/javascripts/bootstrap.min.js')
+
+  block custom_scripts

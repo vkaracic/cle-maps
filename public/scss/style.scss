@@ -1,16 +1,26 @@
 @import "mixins";
 
-.col-1 { @include col(1); }
-.col-2 { @include col(2); }
-.col-3 { @include col(3); }
-.col-4 { @include col(4); }
-.col-5 { @include col(5); }
-.col-6 { @include col(6); }
+$footer-height: 50px;
 
 .hidden { display: none; }
 
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+
+    body {
+        margin-bottom: $footer-height;
+    }
+}
+
 header {
-    height: 80px;
+    margin-bottom: 20px;
+    background-color: #f7f7f7;
 }
 
 .submit-btn {
@@ -45,8 +55,6 @@ header {
 }
 
 #content {
-    width: 1170px;
-
     #option-links {
         span {
             display: inline-block;
@@ -168,4 +176,12 @@ header {
 #register {
     @extend #login;
     height: 320px;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    height: $footer-height;
+    line-height: $footer-height;
+    bottom: 0;
 }
