@@ -7,7 +7,8 @@
     "watch_scss": "npm run compile_scss & node-sass -w ./public/scss/ -o ./public/stylesheets/ --output-style compressed",
     "start": "nodemon ./bin/www",
     "lint": "./node_modules/.bin/eslint models/**/*.js test/*.js public/**/*.js routes/**/*.js app.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/sequelize db:migrate && NODE_ENV=test ./node_modules/.bin/mocha && rm test_db.sqlite"
+    "test": "NODE_ENV=test ./node_modules/.bin/sequelize db:migrate && NODE_ENV=test ./node_modules/.bin/nyc ./node_modules/.bin/mocha && rm test_db.sqlite",
+    "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && ./node_modules/.bin/codecov"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "codecov": "^2.3.0",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-dollar-sign": "^1.0.0",
@@ -39,6 +41,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^3.5.0",
     "node-sass": "^4.5.3",
+    "nyc": "^11.2.0",
     "sqlite3": "^3.1.9"
   }
 }
