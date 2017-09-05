@@ -1,20 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mapsConfig = require('../config');
 const controllers = require('../controllers/');
 const passport = require('passport');
 
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Index' });
-});
+router.get('/', controllers.index);
 
-router.get('/creator', function (req, res, next) {
-  res.render('creator', { apiKey: mapsConfig.mapsApiKey });
-});
+router.get('/creator', controllers.creator);
 
-router.get('/creator/:id', function (req, res, next) {
-  res.render('creator', { mapId: req.params.id, apiKey: mapsConfig.mapsApiKey });
-});
+router.get('/creator/:id', controllers.creatorSavedMap);
 
 router.get('/register', controllers.registerView);
 router.post('/register', controllers.registerUser);
