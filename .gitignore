@@ -60,3 +60,4 @@ typings/
 config/config.json
 config/private.json
 public/stylesheets/style.css
+coverage.lcov
