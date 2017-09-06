@@ -45,29 +45,6 @@ $('.save-map-btn').on('click', function () {
   saveOrUpdateMap('/api/maps', 'POST');
 });
 
-/* *************** MAP DETAILS *************** */
-
-function populateMarkers (markers) {
-  let service = new google.maps.places.PlacesService(window.map.map);
-  markers.forEach((marker) => {
-    service.getDetails(
-      {placeId: marker.placeId},
-      (place, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          addMarker([place], window.map.map);
-        }
-      }
-    )
-  });
-}
-
-function populatePaths (paths) {
-  let directionsService = new google.maps.DirectionsService();
-  paths.forEach((path) => {
-    addPath(directionsService, path.origin, path.destination, window.map.map);
-  });
-}
-
 $(document).ready(function () {
   if (mapId) {
     $.ajax({

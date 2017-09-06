@@ -32,6 +32,7 @@ block content
 block custom_scripts
     script
         | var mapId = "#{mapId}";
-    script(src='/javascripts/maps.js')
+    script(src='/javascripts/google-maps-utils.js')
+    script(src='/javascripts/creator.js')
     script(src='/javascripts/scripts.js')
     script(src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&libraries=places,visualization&callback=initMap')

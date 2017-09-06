@@ -21,12 +21,14 @@ module.exports = {
   },
 
   mapList: (req, res, next) => {
-    db.map.findAll({
-      include: [
-        {model: db.marker},
-        {model: db.path}
-      ]
-    }).then((maps) => {
+    let filter = {
+      include: [{model: db.marker}, {model: db.path}]
+    };
+    if ('public' in req.query) {
+      let public = (req.query.public === 'true') ? true : false;
+      filter.where = {public: public};
+    }
+    db.map.findAll(filter).then((maps) => {
       res.status(200).json(maps);
     });
   },
