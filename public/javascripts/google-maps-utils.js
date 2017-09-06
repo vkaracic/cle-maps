@@ -92,7 +92,7 @@ function addMarker (places, map) {
   setBounds(map);
 }
 
-function markerHandler (map) {
+function markerHandler (map) { // eslint-disable-line no-unused-vars
   let input = $('input[name=location]')[0];
   let searchBox = new google.maps.places.SearchBox(input);
 
@@ -128,7 +128,7 @@ function addPath (directionsService, origin, destination, map) {
   });
 }
 
-function directionsHandler (map) {
+function directionsHandler (map) { // eslint-disable-line no-unused-vars
   let directionsService = new google.maps.DirectionsService();
 
   let originSearchBox = new google.maps.places.SearchBox($('input[name=origin]')[0]);
@@ -143,13 +143,23 @@ function directionsHandler (map) {
   });
 }
 
-function initMap () { // eslint-disable-line no-unused-vars
-  let map = new google.maps.Map($('#map-display')[0], {
-    center: {lat: 0, lng: 0},
-    zoom: 5
+function populateMarkers (markers) { // eslint-disable-line no-unused-vars
+  let service = new google.maps.places.PlacesService(window.map.map);
+  markers.forEach((marker) => {
+    service.getDetails(
+      {placeId: marker.placeId},
+      (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          addMarker([place], window.map.map);
+        }
+      }
+    )
   });
-  window.map.map = map;
+}
 
-  markerHandler(map);
-  directionsHandler(map);
+function populatePaths (paths) { // eslint-disable-line no-unused-vars
+  let directionsService = new google.maps.DirectionsService();
+  paths.forEach((path) => {
+    addPath(directionsService, path.origin, path.destination, window.map.map);
+  });
 }

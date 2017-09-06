@@ -16,6 +16,13 @@ html
           ul.navbar-nav.mr-auto
             li.nav-item
               a.nav-link(href='/creator') Creator
+            li.nav-item.dropdown
+              a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | Maps
+              .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+                a.dropdown-item(href='#') My maps
+                a.dropdown-item(href='/public-maps') Public maps
+
   body
     block content
 

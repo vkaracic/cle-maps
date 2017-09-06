@@ -56,5 +56,17 @@ module.exports = {
     } else {
       res.render('login');
     }
+  },
+
+  publicMaps: (req, res, next) => {
+    res.render('public-maps', {tilte: 'Public maps'});
+  },
+
+  mapDetails: (req, res, next) => {
+    res.render('map-details', {
+      title: 'Map details',
+      mapId: req.params.id,
+      apiKey: config.mapsApiKey
+    });
   }
 }

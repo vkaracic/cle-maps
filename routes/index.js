@@ -12,6 +12,9 @@ router.get('/creator/:id', controllers.creatorSavedMap);
 router.get('/register', controllers.registerView);
 router.post('/register', controllers.registerUser);
 
+router.get('/public-maps', controllers.publicMaps);
+router.get('/map/:id', controllers.mapDetails);
+
 router.get('/login', controllers.loginView);
 router.post('/login', passport.authenticate('login', {
   successRedirect: '/',

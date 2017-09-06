@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    div.container
+        h3
+        #content
+            #map-display
+
+block custom_scripts
+    script
+       | var mapId = "#{mapId}";
+    script(src='/javascripts/google-maps-utils.js')
+    script(src='/javascripts/map-details.js')
+    script(src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&libraries=places,visualization&callback=initMap')
