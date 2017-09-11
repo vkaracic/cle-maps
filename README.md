@@ -1,4 +1,6 @@
 # Google Maps Presenter
+[![codecov](https://codecov.io/gh/vkaracic/cle-maps/branch/master/graph/badge.svg)](https://codecov.io/gh/vkaracic/cle-maps)
+
 Custom Learning Experience with Google Maps.
 
 # Installation
@@ -6,6 +8,7 @@ Custom Learning Experience with Google Maps.
 - run `npm install` to install all the needed packages
 - run `node_modules/.bin/sequelize db:migration` to create the database tables
 - run `npm run compile_scss` to compile the SCSS to CSS
+- add a session secret to your configuration file
 
 At this point only getting the Google Maps API key is left. You can do that with going to the [Google developers page](https://developers.google.com/maps/documentation/javascript/get-api-key) and get or create a new API key. Set that key in your config.json file and you are good to go.
 
@@ -24,9 +27,9 @@ config.json:
   },
   "production": {
     "username": "root",
-    "password": null,
+    "password": super-strong-password,
     "database": "database_production",
-    "host": "127.0.0.1",
+    "host": "production",
     "dialect": "mysql",
     "mapsApiKey": "your-google-maps-api-key",
     "sessionSecret": "top-secret"
