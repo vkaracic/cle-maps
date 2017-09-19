@@ -46,7 +46,7 @@
   },
   "nyc": {
     "exclude": [
-        "config"
+      "config"
     ]
   }
 }
