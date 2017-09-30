@@ -26,13 +26,15 @@ describe('Test models', () => {
     };
 
     map.addMarkers([markerData]).then((map) => {
-      db.marker.count().then(c => expect(c).to.equal(1));
-      db.marker.findById(1).then(marker => {
-        expect(marker.placeId).to.equal(markerData.placeId);
-        expect(marker.name).to.equal(markerData.name);
-        expect(marker.lat).to.equal(markerData.lat);
-        expect(marker.lng).to.equal(markerData.lng);
-        done();
+      db.marker.count().then(c => {
+        expect(c).to.equal(1)
+        db.marker.findById(1).then(marker => {
+          expect(marker.placeId).to.equal(markerData.placeId);
+          expect(marker.name).to.equal(markerData.name);
+          expect(marker.lat).to.equal(markerData.lat);
+          expect(marker.lng).to.equal(markerData.lng);
+          done();
+        });
       });
     });
   });
@@ -46,12 +48,14 @@ describe('Test models', () => {
     };
 
     map.addPaths([pathData]).then(map => {
-      db.path.count().then(c => expect(c).to.equal(1));
-      db.path.findById(1).then(path => {
-        expect(path.mapId).to.equal(pathData.mapId);
-        expect(path.origin).to.equal(pathData.origin);
-        expect(path.destination).to.equal(pathData.destination);
-        done();
+      db.path.count().then(c => {
+        expect(c).to.equal(1)
+        db.path.findById(1).then(path => {
+          expect(path.mapId).to.equal(pathData.mapId);
+          expect(path.origin).to.equal(pathData.origin);
+          expect(path.destination).to.equal(pathData.destination);
+          done();
+        });
       });
     });
   });

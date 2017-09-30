@@ -28,11 +28,13 @@ describe('Test Maps API endpoint', () => {
         .end((err, res) => {
           expect(res.status).to.equal(201);
           assertMapDetails(res.body);
-        });
 
-      db.map.count().then(c => expect(c).to.equal(1));
-      db.map.destroy({where: {id: mapData.id}});
-      done();
+          db.map.count().then(c => {
+            expect(c).to.equal(1);
+            db.map.destroy({where: {id: mapData.id}});
+            done();
+          });
+        });
     });
   });
 
@@ -93,8 +95,10 @@ describe('Test Maps API endpoint', () => {
         .delete(apiUrl + '1')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          db.map.count().then(c => expect(c).to.equal(0));
-          done();
+          db.map.count().then(c => {
+            expect(c).to.equal(0);
+            done();
+          });
         });
     });
   });
