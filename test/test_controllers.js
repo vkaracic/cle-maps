@@ -85,7 +85,7 @@ describe('Test controllers', () => {
       last_name: 'Doe',
       password: 'password',
       role: 'user',
-      active: 'true'
+      is_active: 'true'
     };
 
     afterEach((done) => {
@@ -130,5 +130,5 @@ describe('Test controllers', () => {
 
     controller.loginView(req, loginResMock);
     done();
-  })
+  });
 });

@@ -33,7 +33,7 @@ module.exports = {
             'user'
           ]
         },
-        active: {
+        is_active: {
           type: Sequelize.BOOLEAN,
           default: true,
           allowNull: false

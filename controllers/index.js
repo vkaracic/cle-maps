@@ -36,7 +36,7 @@ module.exports = {
                 username: req.body.username,
                 password: hash,
                 role: req.body.role,
-                active: true
+                is_active: true
               }).then((obj) => {
                 if (!obj) {
                   res.setStatus(400).send('An error occured while creating user.');
