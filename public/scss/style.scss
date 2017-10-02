@@ -21,6 +21,10 @@ html {
 header {
     margin-bottom: 20px;
     background-color: #f7f7f7;
+
+    .navbar-text {
+        padding: .5em 1em;
+    }
 }
 
 .submit-btn {
@@ -153,8 +157,8 @@ header {
 
 
 #login {
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: auto;
     margin: 200px auto 0 auto;
     border: 1px solid #DADADA;
     border-radius: 5px;
@@ -170,12 +174,16 @@ header {
         &[type=text], &[type=password] {
             text-indent: 10px;
         }
+
+        &[type=submit] {
+            display: inline-block;
+            height: auto;
+        }
     }
 }
 
 #register {
     @extend #login;
-    height: 320px;
 }
 
 footer {

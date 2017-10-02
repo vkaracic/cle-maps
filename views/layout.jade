@@ -20,8 +20,21 @@ html
               a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                 | Maps
               .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
-                a.dropdown-item(href='#') My maps
-                a.dropdown-item(href='/public-maps') Public maps
+                if user
+                  a.dropdown-item(href='#') My maps
+                else
+                  a.dropdown-item(href='/public-maps') Public maps
+          ul.navbar-nav.ml-auto
+            if user
+              li.nav-item
+                span.navbar-text Hello, #{user.username}
+              li.nav-item
+                a.nav-link(href='/logout') Logout
+            else
+              li.nav-item
+                a.nav-link(href='/login') Login
+              li.nav-item
+                a.nav-link(href='/register') Register
 
   body
     block content
