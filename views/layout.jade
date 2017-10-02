@@ -21,9 +21,8 @@ html
                 | Maps
               .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
                 if user
-                  a.dropdown-item(href='#') My maps
-                else
-                  a.dropdown-item(href='/public-maps') Public maps
+                  a.dropdown-item(href='/my-maps') My maps
+                a.dropdown-item(href='/public-maps') Public maps
           ul.navbar-nav.ml-auto
             if user
               li.nav-item

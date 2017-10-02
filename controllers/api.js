@@ -4,7 +4,8 @@ module.exports = {
   saveMap: (req, res, next) => {
     db.map.create({
       name: req.body.name,
-      public: req.body.public
+      public: req.body.public,
+      userId: req.user.id
     }).then((map) => {
       if (req.body.markers && req.body.paths) {
         let markers = JSON.parse(req.body.markers);
@@ -21,59 +22,62 @@ module.exports = {
   },
 
   mapList: (req, res, next) => {
-    let filter = {
-      include: [{model: db.marker}, {model: db.path}]
+    let filter = {};
+    if (req.query.public === 'true') {
+      filter.where = {public: true};
+    } else {
+      filter.where = {
+        $and: {
+          userId: req.user.id,
+          $or: [
+            {public: true},
+            {public: false}
+          ]
+        }
+      };
     };
-    if ('public' in req.query) {
-      let public = (req.query.public === 'true') ? true : false;
-      filter.where = {public: public};
-    }
-    db.map.findAll(filter).then((maps) => {
+    db.map.scope('complete').findAll(filter).then((maps) => {
       res.status(200).json(maps);
     });
   },
 
   mapDetails: (req, res, next) => {
-    db.map.findOne({
-      where: {id: req.params.id},
-      include: [
-        {model: db.marker},
-        {model: db.path}
-      ]
+    db.map.scope('complete').findOne({
+      where: {id: req.params.id}
     }).then((map) => {
       if (!map) return res.status(404).send('Not found');
+      if (!map.public) {
+        if (!(req.user && map.userId === req.user.id)) {
+          return res.status(403).send('Forbidden');
+        }
+      }
       return res.status(200).json(map);
     });
   },
 
   mapUpdate: (req, res, next) => {
-    db.map.findOne({
-      where: {id: req.params.id},
-      include: [
-        {model: db.marker},
-        {model: db.path}
-      ]
-    }).then((map) => {
-      if (!map) return res.status(404).send('Not found');
-      map.removeItems().then(() => {
-        map.update({
-          name: req.body.name,
-          public: req.body.public
-        }).then(() => {
-          if (req.body.markers && req.body.paths) {
-            let markers = JSON.parse(req.body.markers);
-            let paths = JSON.parse(req.body.paths);
-            Promise.all([
-              map.addMarkers(markers),
-              map.addPaths(paths)
-            ]).then(() => {
-              return res.status(200).send('Updated');
-            });
-          }
-          return res.status(200).send('Updated');
+    db.map.scope('complete').findOne({where: {id: req.params.id}})
+      .then((map) => {
+        if (!map) return res.status(404).send('Not found');
+        map.removeItems().then(() => {
+          map.update({
+            name: req.body.name,
+            public: req.body.public
+          }).then(() => {
+            if (req.body.markers && req.body.paths) {
+              let markers = JSON.parse(req.body.markers);
+              let paths = JSON.parse(req.body.paths);
+              Promise.all([
+                map.addMarkers(markers),
+                map.addPaths(paths)
+              ]).then(() => {
+                return res.status(200).send('Updated');
+              });
+            }
+            return res.status(200).send('Updated');
+          });
         });
       });
-    });
   },
 
   mapDelete: (req, res, next) => {

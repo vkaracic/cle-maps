@@ -131,4 +131,22 @@ describe('Test controllers', () => {
     controller.loginView(req, loginResMock);
     done();
   });
+
+  it('renders public maps page', (done) => {
+    let publicMapsRes = new MockRes({
+      tplName: 'public-maps',
+      context: {title: 'Public maps'}
+    });
+    controller.publicMaps(null, publicMapsRes);
+    done();
+  });
+
+  it('renders my maps page', (done) => {
+    let myMapsRes = new MockRes({
+      tplName: 'my-maps',
+      context: {title: 'My maps'}
+    });
+    controller.myMaps(null, myMapsRes);
+    done();
+  });
 });

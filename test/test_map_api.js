@@ -3,10 +3,50 @@ const server = require('../app');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
 const db = require('../models');
+const bcrypt = require('bcrypt');
 
 chai.use(chaiHttp);
+let agent = chai.request.agent(server);
 
 const apiUrl = '/api/maps/';
+const userPassword = 'tester';
+
+let user;
+
+// @CLEANUP move to test utils file
+function createUser (username) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(userPassword, 8, (err, hash) => {
+      db.user.create({
+        first_name: 'John',
+        last_name: 'Doe',
+        username: username,
+        password: hash,
+        role: 'user',
+        is_active: true
+      })
+        .then((user) => resolve(user))
+        .catch((err) => reject(err));
+    });
+  });
+}
+
+before((done) => {
+  createUser('tester')
+    .then((obj) => {
+      user = obj;
+      agent
+        .post('/login')
+        .send({
+          username: obj.username,
+          password: userPassword
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          done();
+        });
+    });
+});
 
 describe('Test Maps API endpoint', () => {
   let mapData = {
@@ -22,7 +62,7 @@ describe('Test Maps API endpoint', () => {
 
   describe('Test creating a map', () => {
     it('creates a map', (done) => {
-      chai.request(server)
+      agent
         .post(apiUrl)
         .send(mapData)
         .end((err, res) => {
@@ -49,8 +89,8 @@ describe('Test Maps API endpoint', () => {
     });
 
     it('gets the list of maps', (done) => {
-      chai.request(server)
-        .get(apiUrl)
+      agent
+        .get(apiUrl + '?public=true')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.length).to.equal(1);
@@ -61,13 +101,63 @@ describe('Test Maps API endpoint', () => {
         });
     });
 
+    it('filters the list of maps', (done) => {
+      let newMapData = {
+        id: 2,
+        name: 'New map',
+        public: false,
+        userId: user.id
+      };
+      db.map.create(newMapData)
+        .then((newMap) => {
+          agent
+            .get(apiUrl)
+            .end((err, res) => {
+              expect(res.status).to.equal(200);
+              expect(res.body.length).to.equal(1);
+
+              let map = res.body[0];
+              expect(map.userId).to.equal(user.id);
+              expect(map.id).to.equal(newMap.id);
+
+              db.map.count().then(c => {
+                expect(c).to.equal(2);
+                newMap.destroy().then(() => done());
+              });
+            });
+        });
+    });
+
     it('gets details of one map', (done) => {
-      chai.request(server)
+      agent
         .get(apiUrl + '1')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           assertMapDetails(res.body);
           done();
+        });
+    });
+
+    it('rejects viewing details of private not-owned map', (done) => {
+      createUser('other')
+        .then((newUser) => {
+          let newMapData = {
+            id: 2,
+            name: 'New map',
+            public: false,
+            userId: newUser.id
+          };
+          db.map.create(newMapData)
+            .then((newMap) => {
+              agent
+                .get(apiUrl + '2')
+                .end((err, res) => {
+                  expect(res.status).to.equal(403);
+                  newMap.destroy()
+                    .then(() => newUser.destroy())
+                    .then(() => done());
+                });
+            });
         });
     });
 
@@ -77,7 +167,7 @@ describe('Test Maps API endpoint', () => {
         public: false
       };
 
-      chai.request(server)
+      agent
         .put(apiUrl + '1')
         .send(newMapData)
         .end((err, res) => {
@@ -91,7 +181,7 @@ describe('Test Maps API endpoint', () => {
     });
 
     it('deletes a map', (done) => {
-      chai.request(server)
+      agent
         .delete(apiUrl + '1')
         .end((err, res) => {
           expect(res.status).to.equal(200);
