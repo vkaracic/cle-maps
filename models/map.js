@@ -16,5 +16,14 @@ module.exports = function (sequelize, DataTypes) {
     Map.hasMany(models.path, {onDelete: 'CASCADE'});
   };
 
+  Map.loadScopes = function (models) {
+    this.addScope('complete', {
+      include: [
+        {model: models.marker},
+        {model: models.path}
+      ]
+    });
+  };
+
   return Map;
 };

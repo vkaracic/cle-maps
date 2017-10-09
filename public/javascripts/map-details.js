@@ -6,6 +6,9 @@ $(document).ready(() => {
       $('h3').text(data.name);
       populateMarkers(data.markers);
       populatePaths(data.paths);
+    },
+    error: (err) => {
+      console.log(err);
     }
   });
 });

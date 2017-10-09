@@ -43,11 +43,11 @@ module.exports = {
                 } else {
                   res.redirect('/login');
                 }
-              })
+              });
             }
-          })
+          });
         }
-      })
+      });
   },
 
   loginView: (req, res, next) => {
@@ -59,7 +59,11 @@ module.exports = {
   },
 
   publicMaps: (req, res, next) => {
-    res.render('public-maps', {tilte: 'Public maps'});
+    res.render('public-maps', {title: 'Public maps'});
+  },
+
+  myMaps: (req, res, next) => {
+    res.render('my-maps', {title: 'My maps'});
   },
 
   mapDetails: (req, res, next) => {
