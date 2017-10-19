@@ -7,4 +7,5 @@ function initMap () { // eslint-disable-line no-unused-vars
 
   markerHandler(map);
   directionsHandler(map);
+  infoWindowHandler(map);
 }

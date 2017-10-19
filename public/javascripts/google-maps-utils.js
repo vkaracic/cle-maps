@@ -1,8 +1,11 @@
 window.map = window.map || {
   map: null,
   markers: [],
-  paths: []
+  paths: [],
+  infoWindows: [],
 };
+
+let iconBase = '/images/icons/';
 
 function saveAction (option, location) {
   $('#items table tr:last').after(
@@ -19,12 +22,22 @@ function saveAction (option, location) {
       index = window.map.paths.findIndex((obj) => {
         return obj.origin === location.origin && obj.destination === location.destination;
       });
+    } else if (option === 'infoWindows') {
+      index = window.map.infoWindows.findIndex((obj) => {
+        return obj.name = row.find('.option-location').text();
+      });
     }
 
-    window.map[option][index].obj.setMap(null); // Remove marker from map
-    window.map[option].splice(index, 1); // Remove marker from global map var
+    window.map[option][index].obj.setMap(null); // Remove item from map
+    window.map[option].splice(index, 1); // Remove item from global map var
     $(this).closest('tr').remove(); // Remove the table row
   });
+}
+
+function locationRepr (location) {
+  if (location.place) {
+    return
+  }
 }
 
 function setBounds (map) {
@@ -80,7 +93,7 @@ function addMarker (places, map) {
     });
     window.map.markers.push({
       name: place.name,
-      placeId: place.place_id,
+      placeId: place.place_id, // For saving to database and finding the place on GMaps afterwards.
       lat: place.geometry.location.lat(),
       lng: place.geometry.location.lng(),
       obj: marker,
@@ -92,13 +105,62 @@ function addMarker (places, map) {
   setBounds(map);
 }
 
+function addInfoWindow (location, map, content) {
+  let infowindow = new google.maps.InfoWindow({content: content});
+  let marker;
+  let position;
+  let saveData = {content: content};
+
+  if (location.place || location.coords) {
+    if (location.place) {
+      saveData.name = location.place.name;
+      saveData.placeId = location.place.place_id;
+      position = location.place.geometry.location;
+    } else {
+      saveData.name = location.coords.lat + ', ' + location.coords.lng;
+      saveData.placeId = null;
+      saveData.lat = location.coords.lat;
+      saveData.lat = location.coords.lat;
+      position = new google.maps.LatLng(location.coords.lat, location.coords.lng);
+    }
+    marker = new google.maps.Marker({
+      map: map,
+      icon: iconBase + 'chat-bubble-icon.png',
+      position: position
+    });
+    saveData.obj = marker;
+    marker.addListener('click', () => infowindow.open(map, marker));
+    infowindow.open(map, marker);
+
+    window.map.infoWindows.push(saveData);
+    saveAction('infoWindows', {name: saveData.name})
+  } else { return }
+}
+
+function infoWindowHandler (map) {
+  // @TODO create global searchbox input class and handler.
+  let input = $('#info-window input[name=location]')[0];
+  let searchBox = new google.maps.places.SearchBox(input);
+
+  $('#info-window input[type=button]').click(function () {
+    let places = searchBox.getPlaces();
+    let content = $('#info-window textarea').val();
+    let location = (places) ? {place: places[0]} : {coords: {
+      lat: Number($('#info-window input[name=latitude]').val()),
+      lng: Number($('#info-window input[name=longitude]').val())
+    }};
+
+    addInfoWindow(location, map, content);
+  });
+}
+
 function markerHandler (map) { // eslint-disable-line no-unused-vars
-  let input = $('input[name=location]')[0];
+  let input = $('#marker input[name=location]')[0];
   let searchBox = new google.maps.places.SearchBox(input);
 
   $('.submitBtn.marker').on('click', function () {
-    let places = searchBox.getPlaces('Split, Croatia');
-    addMarker(places, map);
+    let places = searchBox.getPlaces();
+    addMarker(places, map);  // @TODO isn't 'map' a global?
   });
 }
 
@@ -161,5 +223,28 @@ function populatePaths (paths) { // eslint-disable-line no-unused-vars
   let directionsService = new google.maps.DirectionsService();
   paths.forEach((path) => {
     addPath(directionsService, path.origin, path.destination, window.map.map);
+  });
+}
+
+function populateInfoWindows (infoWindows) {
+  let service = new google.maps.places.PlacesService(window.map.map);
+
+  infoWindows.forEach((iWindow) => {
+    if (iWindow.placeId) {
+      // @TODO: DRY
+      service.getDetails(
+        {placeId: iWindow.placeId},
+        (place, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            addInfoWindow({place: place}, window.map.ap, iWindow.content);
+          }
+        }
+      )
+    } else {
+      addInfoWindow({coords: {
+        lat: iWindow.lat,
+        lng: iWindow.lng
+      }}, window.map.ap, iWindow.content);
+    }
   });
 }

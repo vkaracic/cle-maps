@@ -42,6 +42,9 @@ db.map.prototype.removeItems = function () {
     this.getPaths().then((paths) => {
       paths.forEach((path) => { path.destroy() });
     });
+    this.getInfoWindows().then((infoWindows) => {
+      infoWindows.forEach((infoWindow) => { infoWindow.destroy() });
+    });
     resolve(this);
   });
 }
@@ -71,6 +74,25 @@ db.map.prototype.addPaths = function (paths) {
         db.path.create({
           origin: path.origin,
           destination: path.destination
+        }).then((obj) => {
+          obj.setMap(this);
+        });
+      });
+    }
+    resolve(this);
+  });
+}
+
+db.map.prototype.addInfoWindows = function (infoWindows) {
+  return new Promise((resolve, reject) => {
+    if (infoWindows) {
+      infoWindows.forEach((infoWindow) => {
+        db.infoWindow.create({
+          placeId: infoWindow.placeId,
+          content: infoWindow.content,
+          name: infoWindow.name,
+          lat: infoWindow.lat,
+          lng: infoWindow.lng
         }).then((obj) => {
           obj.setMap(this);
         });

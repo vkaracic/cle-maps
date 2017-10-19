@@ -6,6 +6,7 @@ $(document).ready(() => {
       $('h3').text(data.name);
       populateMarkers(data.markers);
       populatePaths(data.paths);
+      populateInfoWindows(data.infoWindows);
     },
     error: (err) => {
       console.log(err);

@@ -7,10 +7,10 @@ module.exports = {
     res.render('index', { title: 'Index' });
   },
   creator: (req, res, next) => {
-    res.render('creator', { apiKey: config.mapsApiKey });
+    res.render('creator', { apiKey: config.mapsApiKey, title: 'Creator' });
   },
   creatorSavedMap: (req, res, next) => {
-    res.render('creator', { mapId: req.params.id, apiKey: config.mapsApiKey });
+    res.render('creator', { mapId: req.params.id, apiKey: config.mapsApiKey, title: 'Map viewer' });
   },
   registerView: (req, res, next) => {
     if (req.isAuthenticated()) {

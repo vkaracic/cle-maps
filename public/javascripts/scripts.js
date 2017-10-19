@@ -27,6 +27,13 @@ function saveOrUpdateMap (url, method) {
     paths.push({origin: path.origin, destination: path.destination});
   });
 
+  let infoWindows = [];
+  window.map.infoWindows.forEach((iWindow) => {
+    let infoWindowData = Object.assign({}, iWindow);
+    delete infoWindowData.obj;
+    infoWindows.push(infoWindowData);
+  });
+
   $.ajax({
     url: url,
     method: method,
@@ -34,7 +41,8 @@ function saveOrUpdateMap (url, method) {
       name: $('input[name=map-name]').val(),
       public: $('input[name=map-public]').is(':checked'),
       markers: JSON.stringify(markers),
-      paths: JSON.stringify(paths)
+      paths: JSON.stringify(paths),
+      infoWindows: JSON.stringify(infoWindows)
     },
     success: (data) => { console.log('Success!') },
     error: (data) => { console.log('Error saving map: ' + data) }
@@ -55,6 +63,7 @@ $(document).ready(function () {
         $('input[name=map-public').attr('checked', data.public);
         populateMarkers(data.markers);
         populatePaths(data.paths);
+        populateInfoWindows(data.infoWindows);
 
         $('.save-map-btn').after(
           '<input type="button" value="Update map", class="update-map-btn green-submit-btn">'

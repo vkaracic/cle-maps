@@ -6,15 +6,23 @@ block content
             .col-md-6
                 #option-links
                     span(class='option-btn active' name='marker') Marker
+                    span(class='option-btn' name='info-window') Info Window
                     span(class='option-btn' name='directions') Directions
                 #options
-                    div(class='option marker')
-                        input(id='location', type='text', name='location', placeholder='Location')
+                    div(id='marker' class='option marker')
+                        input(type='text', name='location', placeholder='Location')
                         input(class='submitBtn green-submit-btn marker' type='button', value='Add')
-                    div(class='option directions hidden')
-                        input(id='origin', type='text', name='origin', placeholder='Origin')
-                        input(id='destination', type='text', name='destination', placeholder='Destination')
+                    div(id='directions' class='option directions hidden')
+                        input(type='text', name='origin', placeholder='Origin')
+                        input(type='text', name='destination', placeholder='Destination')
                         input(class='submitBtn green-submit-btn directions' type='button', value='Add')
+                    div(id='info-window' class='option info-window hidden')
+                        input(type='text', name='location', placeholder='Location')
+                        span or
+                        input(type='text', name='latitude', placeholder='Latitude')
+                        input(type='text', name='longitude', placeholder='Longitude')
+                        textarea('text', name='content', placeholder='Content')
+                        input(class='submitBtn green-submit-btn info-window' type='button', value='Add')
                 #items
                     table.table.table-striped
                         tbody

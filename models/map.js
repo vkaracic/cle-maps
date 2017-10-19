@@ -14,13 +14,15 @@ module.exports = function (sequelize, DataTypes) {
     Map.belongsTo(models.user);
     Map.hasMany(models.marker, {onDelete: 'CASCADE'});
     Map.hasMany(models.path, {onDelete: 'CASCADE'});
+    Map.hasMany(models.infoWindow, {onDelete: 'CASCADE'});
   };
 
   Map.loadScopes = function (models) {
     this.addScope('complete', {
       include: [
         {model: models.marker},
-        {model: models.path}
+        {model: models.path},
+        {model: models.infoWindow}
       ]
     });
   };

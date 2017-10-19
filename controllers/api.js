@@ -10,9 +10,11 @@ module.exports = {
       if (req.body.markers && req.body.paths) {
         let markers = JSON.parse(req.body.markers);
         let paths = JSON.parse(req.body.paths);
+        let infoWindows = JSON.parse(req.body.infoWindows);
         Promise.all([
           map.addMarkers(markers),
-          map.addPaths(paths)
+          map.addPaths(paths),
+          map.addInfoWindows(infoWindows)
         ]).then(() => {
           return res.status(201).json(map);
         });
@@ -67,9 +69,11 @@ module.exports = {
             if (req.body.markers && req.body.paths) {
               let markers = JSON.parse(req.body.markers);
               let paths = JSON.parse(req.body.paths);
+              let infoWindows = JSON.parse(req.body.infoWindows);
               Promise.all([
                 map.addMarkers(markers),
-                map.addPaths(paths)
+                map.addPaths(paths),
+                map.addInfoWindows(infoWindows)
               ]).then(() => {
                 return res.status(200).send('Updated');
               });
