@@ -31,7 +31,7 @@ html
                 a.nav-link(href='/logout') Logout
             else
               li.nav-item
-                a.nav-link(href='/login') Login
+                a.nav-link.login(href='/login') Login
               li.nav-item
                 a.nav-link(href='/register') Register
 
@@ -48,5 +48,7 @@ html
     script(src='/javascripts/jquery-3.2.1.min.js')
     script(src='/javascripts/tether.min.js')
     script(src='/javascripts/bootstrap.min.js')
+    script
+      | $('a.login').attr('href', '/login/?next=' + window.location.pathname);
 
   block custom_scripts

@@ -54,7 +54,7 @@ module.exports = {
     if (req.isAuthenticated()) {
       res.redirect('/');
     } else {
-      res.render('login');
+      res.render('login', {title: 'Login'});
     }
   },
 
