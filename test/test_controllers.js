@@ -115,7 +115,8 @@ describe('Test controllers', () => {
   it('renders login page', (done) => {
     let req = new MockReq(false);
     let loginResMock = new MockRes({
-      tplName: 'login'
+      tplName: 'login',
+      context: {title: 'Login'}
     });
 
     controller.loginView(req, loginResMock);

@@ -14,15 +14,18 @@ router.get('/register', controllers.registerView);
 router.post('/register', controllers.registerUser);
 
 router.get('/public-maps', controllers.publicMaps);
-router.get('/map/:id', controllers.mapDetails);
+router.get('/map/:id', permissions.isAuthenticated, controllers.mapDetails);
 
 router.get('/my-maps', permissions.isAuthenticated, controllers.myMaps);
 
 router.get('/login', controllers.loginView);
-router.post('/login', passport.authenticate('login', {
-  successRedirect: '/',
-  failureRedirect: '/login'
-}));
+router.post('/login', passport.authenticate('login'), (req, res) => {
+  if (req.isAuthenticated()) {
+    return (req.body.next) ? res.redirect(req.body.next) : res.redirect('/');
+  } else {
+    return res.redirect('/login');
+  }
+});
 
 router.get('/logout', (req, res) => {
   req.logout();

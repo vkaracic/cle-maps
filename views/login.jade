@@ -6,4 +6,10 @@ block content
             h2 LOGIN
             input(id='username', type='text', name='username', placeholder='Username')
             input(id='password', type='password', name='password', placeholder='Password')
+            input(id='next', name='next' type='hidden')
             input.btn.btn-default(type="submit")
+
+block custom_scripts
+    script
+        | var searchParams = new URLSearchParams(window.location.search);
+        | $('#next').val(searchParams.get('next'));

@@ -7,11 +7,14 @@ chai.use(spies);
 
 describe('Test permissions', function () {
   // @CLEANUP: move the req and res mocks to a common mock file.
-  IsAuthenticatedReqMock = function (isAuth) {
+  IsAuthenticatedReqMock = function (isAuth, originalUrl) {
     this.isAuthenticated = function () {
       return isAuth;
     }
+
+    this.originalUrl = originalUrl;
   }
+
   ResMock = function (expectedUrl) {
     this.redirect = function (url) {
       expect(expectedUrl).to.equal(url);
@@ -28,8 +31,9 @@ describe('Test permissions', function () {
   });
 
   it('should redirect to login if not authenticated', (done) => {
-    let notAuthenticatedReqMock = new IsAuthenticatedReqMock(false);
-    let notAuthenticatedResMock = new ResMock('/login');
+    let originalUrl = 'nextUrl';
+    let notAuthenticatedReqMock = new IsAuthenticatedReqMock(false, originalUrl);
+    let notAuthenticatedResMock = new ResMock('/login/?next=' + originalUrl);
 
     permissions.isAuthenticated(notAuthenticatedReqMock, notAuthenticatedResMock);
     done();
